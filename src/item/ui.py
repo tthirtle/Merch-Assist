@@ -73,11 +73,13 @@ loc_layout = [
     [table]
 ]
 
-loc_window = sg.Window("Location Select",loc_layout)
+loc_window = sg.Window("Location Select",loc_layout,alpha_channel=0)
 
 
 # TEST CODE
 loc_window.finalize()
+loc_window.set_alpha(1)
+
 desc_loc_textbox.update("Sample")
 from code_o import loc_read
 while True:

@@ -6,8 +6,10 @@ def loc_read(event,value:dict):
 def table_input(selection,item_name:str):
     print(selection)
     if selection[0] or selection[1] == None:
+        print("None")
         return
     if selection[0] or selection[1] == -1:
+        print("-1")
         return
     from ui import table
     from FreeSimpleGUI import popup_get_text
