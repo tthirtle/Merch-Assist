@@ -1,6 +1,3 @@
-# import birdseye.clear_db # debugging only
-import birdseye.trace_module_deep # debugging only
-
 import FreeSimpleGUI as sg
 
 # Hard coded varibles - Testing only
@@ -58,16 +55,16 @@ sku_loc_textbox = sg.Input(disabled=True)
 upc_loc_label = sg.Text("UPC")
 upc_loc_textbox = sg.Input(disabled=True)
 desc_loc_label = sg.Text("Description")
-desc_loc_textbox = sg.Input(disabled=True)
+desc_loc_textbox = sg.Input(disabled=True,key="desc")
 
-table = sg.Table(
-    [
-        ['','',''],
-        ['','',''],
-        ['','',''],
-        ['','',''],
-        ['','','']
-    ],["Gondola","Shelf","Slot"],select_mode=sg.TABLE_SELECT_MODE_EXTENDED,enable_click_events=True,key="table")
+table = sg.Table(values=
+                 [
+                      ['','',''],
+                      ['','',''],
+                      ['','',''],
+                      ['','',''],
+                      ['','','']
+     ],headings=["Gondola","Shelf","Slot"],select_mode=sg.TABLE_SELECT_MODE_EXTENDED,enable_click_events=True,key="table")
 
 loc_layout = [
     [upc_loc_label,upc_loc_textbox],
@@ -78,9 +75,15 @@ loc_layout = [
 
 loc_window = sg.Window("Location Select",loc_layout)
 
+
+# TEST CODE
+loc_window.finalize()
+desc_loc_textbox.update("Sample")
+from code_o import loc_read
 while True:
      (event, value) = loc_window.read()
      if event  == sg.WIN_CLOSED:
           break
      print(event)
      print(value)
+     loc_read(event,value)
