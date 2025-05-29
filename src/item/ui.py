@@ -1,91 +1,57 @@
+# Item Maintance Window
 import FreeSimpleGUI as sg
 
-# Hard coded varibles - Testing only
+brands = ["Auto"]
 
-statuses = [
+status = [
     "Active",
     "Inactive",
     "Discontinued",
     "Replaced"
 ]
 
-brands = ["Auto"]
-
 img_file_types = (
-    ("Windows Bitmap (*.bmp)","*.bmp"),
-    ("Joint Photographic Experts Group Image (*.jpg)","*.jpg"),
-    ("Graphics Interchange Format (*.gif)","*.gif"),
-    ("Portable Network Graphics (*.png)","*.png"),
+    ("All image File types","*.jpg *.jpeg *.bmp *.png *.gif"),
+    ("Jpeg file","*.jpg *.jpeg"),
+    ("Bitmap file","*.bmp"),
+    ("PNG file","*.png"),
     sg.FILE_TYPES_ALL_FILES[0]
 )
 
-# UI
-# Global Item Maintance Window
-
-# Needed Fields
-# UPC,SKU,Description,Status
-
 upc_label = sg.Text("UPC")
-upc_textbox = sg.Input(key="upc")
+upc_textbox = sg.Input(key='upc')
 sku_label = sg.Text("SKU")
 sku_textbox = sg.Input(key="sku")
 brand_label = sg.Text("Brand")
-brand_combo = sg.Combo(brands,brands[0],key='brand')
-descrip_label = sg.Text("Description")
-descrip_textbox = sg.Input(key="descr")
-image_label = sg.Text("Image")
-image_textbox = sg.Input(key="img")
-image_button = sg.FileBrowse(file_types=img_file_types)
+brand_combo = sg.InputCombo(values=brands,key="brand")
+desc_label = sg.Text("Description")
+desc_textbox = sg.Input(key='desc')
+status_label = sg.Text("Status")
+status_text = sg.Combo(values=status,key="status",readonly=True)
+pack_label = sg.Text("Pack size")
+pack_text = sg.Input(key="pack",tooltip="Number of items in a pack(1 on order)")
+unit_label = sg.Text("Unit size")
+unit_text = sg.Input(key='unit',tooltip="The size of the product example: 1 ea, 2 dozen, 16 capsulles, 20 fl oz")
 
-maint_layout = [
+img_label = sg.Text("Image")
+img_text = sg.Input(key='img')
+img_button = sg.FileBrowse(file_types=img_file_types)
+
+update_button = sg.Button("Update",key="update")
+
+
+layout = [
     [upc_label,upc_textbox],
     [sku_label,sku_textbox],
     [brand_label,brand_combo],
-    [descrip_label,descrip_textbox],
-    [image_label,image_textbox,image_button],
-    [sg.Ok(),sg.Cancel()]
+    [desc_label,desc_textbox],
+    [status_label,status_text],
+    [pack_label,pack_text],
+    [unit_label,unit_text],
+    [img_label,img_text,img_button],
+    [update_button,sg.Cancel()]
 ]
 
-maint_window = sg.Window(title="Item Maintance",layout=maint_layout)
+window = sg.Window("Item Maintance",layout=layout)
 
-# Location Window
-
-sku_loc_label = sg.Text("SKU")
-sku_loc_textbox = sg.Input(disabled=True)
-upc_loc_label = sg.Text("UPC")
-upc_loc_textbox = sg.Input(disabled=True)
-desc_loc_label = sg.Text("Description")
-desc_loc_textbox = sg.Input(disabled=True,key="desc")
-
-table = sg.Table(values=
-                 [
-                      ['','',''],
-                      ['','',''],
-                      ['','',''],
-                      ['','',''],
-                      ['','','']
-     ],headings=["Gondola","Shelf","Slot"],select_mode=sg.TABLE_SELECT_MODE_EXTENDED,enable_click_events=True,key="table")
-
-loc_layout = [
-    [upc_loc_label,upc_loc_textbox],
-    [sku_loc_label,sku_loc_textbox],
-    [desc_loc_label,desc_loc_textbox],
-    [table]
-]
-
-loc_window = sg.Window("Location Select",loc_layout,alpha_channel=0)
-
-
-# TEST CODE
-loc_window.finalize()
-loc_window.set_alpha(1)
-
-desc_loc_textbox.update("Sample")
-from code_o import loc_read
-while True:
-     (event, value) = loc_window.read()
-     if event  == sg.WIN_CLOSED:
-          break
-     print(event)
-     print(value)
-     loc_read(event,value)
+window.read()
