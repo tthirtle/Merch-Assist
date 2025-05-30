@@ -9,3 +9,5 @@ class item:
         self.pack_size = pack_size
         self.unit_size = unit_size
         self.img = img
+
+current_item = None

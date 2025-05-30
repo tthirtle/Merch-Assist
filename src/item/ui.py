@@ -54,4 +54,4 @@ layout = [
 
 window = sg.Window("Item Maintance",layout=layout)
 
-window.read()
+print(window.read())
